@@ -11,7 +11,7 @@ function deleteProduct(id){
     return knex("product").where("id",id).del()
 }
 function updateProduct(id,product){
-    return knex("cars").where("id",id).update(product)
+    return knex("product").where("id",id).update(product)
 }
 module.exports={
     getAllProducts,
