@@ -5,8 +5,10 @@ async function createAuth_user(auth_user){
     const [id]=await knex("users").insert(auth_user).returning('id')
     return id
 }
-function getAllAuth_user(){
-    return knex("users").select("*")
+async function get_userDetails(sessionId){
+    let user=await knex("users").where("session",sessionId).select('*')
+    console.log(user[0])
+    return user[0]
 }
  async function userAuthenticateCheck(username,password){
     const user=await knex("users").where("username",username).select("*")
@@ -31,7 +33,7 @@ function updateAuth_user(id,auth_user){
     return knex("users").where("id",id).update(auth_user)
 }
 module.exports={
-    getAllAuth_user,
+    get_userDetails,
     createAuth_user,
     deleteAuth_user,
     updateAuth_user,

@@ -40,9 +40,11 @@ router.post("/login",async (req,res)=>{
     const user= await db.userAuthenticateCheck(username,password)
     res.status(200).json({user:user})
 })
-router.get("/",async (req,res)=>{
-    const user=await db.getAllAuth_user()
-    res.status(200).json({user})
+router.get("/user",async (req,res)=>{
+    console.log(req.query)
+    let {sessiontoken}=req.query
+    const user=await db.get_userDetails(sessiontoken)
+    res.status(200).json({user:user})
 })
 router.patch("/:id",async (req,res)=>{
     const id=await db.updateAuth_user(req.params.id,req.body)
