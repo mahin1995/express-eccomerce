@@ -6,34 +6,41 @@ const oneDay = 1000 * 60 * 60 * 24;
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json())
 router.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false 
-}));
+    secret: 'supersecret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: true,
+      secure: false,
+      expires: false
+    }
+  }));
 
 router.post("/",async (req,res)=>{
+    let sessionId=req.session.id
+    console.log('user',req.session.id)
+    req.body.session=sessionId
     console.log(req.body)
-    let session=req.session
-    session.name=req.body.user_name
-    session.userid="1"
-    let result
     try{
         result=await db.createAuth_user(req.body);
+        console.log(result[0])
     }catch(e){
         console.log(e)
         res.status(400).json("error:"+e)
     }finally{
         if(result){
-            let user_id = result[0];
+            let user_id = result;
             res.status(201).json({id:`user_id ${user_id}`})
         }
     }
-
+})
+router.post("/login",async (req,res)=>{
+    console.log(req.body)
+    const {username,password}=req.body
+    const user= await db.userAuthenticateCheck(username,password)
+    res.status(200).json({user:user})
 })
 router.get("/",async (req,res)=>{
-    console.log('user',req.session.userid)
-    console.log('user',req.session.name)
     const user=await db.getAllAuth_user()
     res.status(200).json({user})
 })

@@ -1,4 +1,4 @@
-const knex=require("./knex")
+const knex=require("./db")
 
 function createProduct(product){
     console.log(product)
