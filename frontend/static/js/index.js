@@ -23,7 +23,6 @@ $(window).on('load',async function () {
             success:async function (data) {
                 $("#row_products1").empty()
                 $("#row_products2").empty()
-              
                 let divs =await data.map((e) => {
                 let div= `<div class="col-4">
                 <a href="product_details" id="details_page" onclick='get_products_details(${e.id})' ><img src="${e.image}"></a>
@@ -35,7 +34,7 @@ $(window).on('load',async function () {
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star-o"></i>
                 </div>
-                <p>$50.00</p>
+                <p>${e.price}Tk</p>
             </div>`
                     return div
                 })

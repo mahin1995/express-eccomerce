@@ -7,6 +7,14 @@ $(window).on('load',async function () {
     await get_products_detailsData().then((e) => data = e)
  
 });
+function alert(message, type) {
+    var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+    var wrapper = document.createElement('div')
+    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+  
+    alertPlaceholder.append(wrapper)
+  }
+var selected_product={}
 async function get_products_detailsData () {
        const id=localStorage.getItem("id")
        const result =await $.ajax({
@@ -15,37 +23,40 @@ async function get_products_detailsData () {
             dataType: 'json',
             beforeSend: function () {
                 $("#col_product").html(`<div class="loader">Loading...</div>`)
-          
+                selected_product={}
             },
             success:async function (data) {
                 $("#col_product").empty()
                
-              
+          selected_product=data
          
-                let div= `           <div class="row" >
+                let div= `          
+             
+                <div class="row" >
             <div class="col-2">
                 <img src="${data.image}" width="100%" id="ProductImg">
 
                 <div class="small-img-row">
                     <div class="small-img-col">
-                        <img src="images/gallery-1.jpg" width="100%" class="small-img">
+                        <img src="${data.image}" width="100%" class="small-img">
                     </div>
                     <div class="small-img-col">
-                        <img src="images/gallery-2.jpg" width="100%" class="small-img">
+                        <img src="${data.image}" width="100%" class="small-img">
                     </div>
                     <div class="small-img-col">
-                        <img src="images/gallery-3.jpg" width="100%" class="small-img">
+                        <img src="${data.image}" width="100%" class="small-img">
                     </div>
                     <div class="small-img-col">
-                        <img src="images/gallery-4.jpg" width="100%" class="small-img">
+                        <img src="${data.image}" width="100%" class="small-img">
                     </div>
                 </div>
 
             </div>
             <div class="col-2 " >
+            <div id="liveAlertPlaceholder"></div>
                 <p>Home / ${data.category}</p>
                 <h1>Red Printed T-Shirt by HRX</h1>
-                <h4>${data.price}.00</h4>
+                <h4>${data.price}Tk</h4>
                 <select>
                     <option>Select Size</option>
                     <option>XXL</option>
@@ -77,7 +88,13 @@ async function get_products_detailsData () {
 
     
 function add_to_cart (element) {
-  
+    console.log(selected_product)
+    var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
+    alert('Nice, you triggered this alert message!', 'success')
+    setTimeout(() => {
+        alertPlaceholder.remove()
+    }, 3000);
     var price = $(element).data("price");
     var image = $(element).data("image");
     var data;
@@ -86,6 +103,7 @@ function add_to_cart (element) {
     const object = {
         id: id,
         price: price,
+        title:selected_product.title,
         quantity: parseInt(quantity),
         image:image
     };

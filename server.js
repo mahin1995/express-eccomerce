@@ -6,10 +6,13 @@ const authRouter=require('./routers/auth')
 const app = express();
 app.use("/static", express.static(path.resolve(__dirname, "frontend", "static")));
 app.use(express.json())
-// app.use('/products/',productRouter)
-app.use('/auth/',authRouter)
+
 const morgan = require("morgan");
 app.use(morgan('dev'))
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/frontend/views'));
+
+
 
 const sessions = require('express-session');
 const KnexSessionStore = require('connect-session-knex')(sessions);
@@ -37,20 +40,21 @@ app.use(sessions({
 
 app.get("/", (req, res) => {
     console.log('user',req.session.id)
-    res.sendFile(path.resolve(__dirname, "frontend", "index.html"));
+   res.render('index',{title:"Home"})
 });
 app.get("/product_details", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "product_details.html"));
+  res.render('product_details',{title:"Product details"})
 });
 app.get("/cart", (req, res) => {
   console.log('user',req.session.id)
-    res.sendFile(path.resolve(__dirname, "frontend", "cart.html"));
+  res.render('cart',{title:"Cart"})
 });
 app.get("/products", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "products.html"));
+  res.render('products',{title:"Products"})
 });
 app.get("/account", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "account.html"));
+  res.render('account',{title:"Account"}) 
 });
-
-app.listen(3000, () => console.log("Server running..."));
+app.use('/product',productRouter)
+app.use('/auth/',authRouter)
+app.listen(3000, () => console.log("Server running...3000"));

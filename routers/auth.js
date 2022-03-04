@@ -1,5 +1,6 @@
 const express=require('express')
 const db=require("../db/auth")
+const {getUserOrders,OrdersDelete}=require("../db/product")
 const router=express.Router()
 const sessions = require('express-session');
 const oneDay = 1000 * 60 * 60 * 24;
@@ -41,14 +42,35 @@ router.post("/login",async (req,res)=>{
     res.status(200).json({user:user})
 })
 router.get("/user",async (req,res)=>{
-    console.log(req.query)
     let {sessiontoken}=req.query
     const user=await db.get_userDetails(sessiontoken)
-    res.status(200).json({user:user})
+    let order=await getUserOrders(user.id)
+    order=order.map(e=>{
+
+            let p=e.product.map(t=>t.price)
+            let title=e.product.map(t=>t.title)
+            const sum = p.reduce((a, b) => a + b, 0);
+            console.log('sum',sum)
+            let t={
+                id:e.id,
+                total_price:sum,
+                address:e.address,
+                product_title:title
+                
+            }
+            return t
+    })
+console.log(order)
+    res.status(200).json({user:user,order:order})
 })
 router.patch("/:id",async (req,res)=>{
     const id=await db.updateAuth_user(req.params.id,req.body)
     res.status(200).json({id})
+})
+router.put("/orderDelete/:id",async (req,res)=>{
+    console.log(req.params.id)
+    const id=await OrdersDelete(req.params.id)
+    res.status(200).json({success:`successfully deleted`})
 })
 router.delete("/:id",async (req,res)=>{
     await db.deleteAuth_user(req.params.id);

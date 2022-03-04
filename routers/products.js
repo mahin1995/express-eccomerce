@@ -8,6 +8,16 @@ router.post("/",async (req,res)=>{
     console.log(req.body)
     res.status(201).json({id:`created product id ${result[0]}`})
 })
+router.post("/order",async (req,res)=>{
+    try{
+        const result=await db.orderProduct(req.body);
+        console.log(result)
+        res.status(201).json({id:`created product id ${result.rowCount}`})
+    }
+catch(err){
+    res.status(400).json({err:"error ocure"})
+}
+})
 router.get("/",async (req,res)=>{
     const product=await db.getAllProducts()
     res.status(200).json({product})

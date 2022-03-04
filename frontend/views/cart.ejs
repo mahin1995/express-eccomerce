@@ -1,0 +1,135 @@
+<%- include('./layout/head'); %>
+
+    <div class="container">
+<%- include('./layout/navbar'); %>
+  
+    </div>
+    <div id="liveAlertPlaceholder"></div>
+    <!-- Cart items details -->
+    <div class="small-container cart-page" >
+        <table id="tables_cart">
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+            </tr>
+         
+            <!-- <tr>
+                <td>
+                    <div class="cart-info">
+                        <img src="../static/images/buy-1.jpg">
+                        <div>
+                            <p>Red Printed T-Shirt</p>
+                            <small>Price: $50.00</small>
+                            <br>
+                            <a href="">Remove</a>
+                        </div>
+                    </div>
+                </td>
+                <td><input type="number" value="1"></td>
+                <td>$50.00</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="cart-info">
+                        <img src="../static/images/buy-2.jpg">
+                        <div>
+                            <p>Red Printed T-Shirt</p>
+                            <small>Price: $50.00</small>
+                            <br>
+                            <a href="">Remove</a>
+                        </div>
+                    </div>
+                </td>
+                <td><input type="number" value="1"></td>
+                <td>$50.00</td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="cart-info">
+                        <img src="../static/images/buy-3.jpg">
+                        <div>
+                            <p>Red Printed T-Shirt</p>
+                            <small>Price: $50.00</small>
+                            <br>
+                            <a href="">Remove</a>
+                        </div>
+                    </div>
+                </td>
+                <td><input type="number" value="1"></td>
+                <td>$50.00</td>
+            </tr> -->
+        </table>
+        <div class="total-price">
+            <table>
+             
+           
+                <tr>
+                    <td>Total</td>
+                    <td><p id="id_total"></p></td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-primary btn-lg" onclick="placeOrder()" >Place Order</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+         
+        </div>
+       
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModal" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <div id="alert_msg"></div>
+                  <h5 class="modal-title" id="exampleModalLabel">Order Details</h5>
+                  
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                          <label for="exampleInputCustomerName" class="form-label">Reciever Name</label>
+                          <input type="text" class="form-control" id="exampleInputCustomerName" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleInputPhone" class="form-label">Phone No</label>
+                          <input type="text" class="form-control"  id="exampleInputPhone" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                          <label for="exampleFormControlAddress" class="form-label">Order Address</label>
+                          <textarea class="form-control"  id="exampleFormControlAddress" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                         <h6>Total price : <p id="id_total2"></p> </h6>
+                         <h6>Delivery charge : 
+                             <p>100</p>
+                         </h6>
+                         <h4>
+                            <b>
+                                Total with : 
+
+                                <p id="id_totalwithDelivery"></p>
+                            </b> 
+                         </h4>
+                        </div>
+  
+                      
+                        <button type="button" onclick="postOrder()" class="btn btn-primary">Submit</button>
+                      </form>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+    
+    </div>
+
+
+
+
+
+    <%- include('./layout/footer'); %>
+    <script src="../static/js/cart.js"></script>
+</body>
+
+</html>
